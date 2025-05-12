@@ -1,0 +1,28 @@
+import cv2
+from google.colab import files
+
+# Upload video file
+uploaded = files.upload()
+
+# Assuming only one file is uploaded
+video_path = list(uploaded.keys())[0]
+
+# Open the video file
+cap = cv2.VideoCapture(video_path)
+
+frame_count = 0
+while cap.isOpened():
+    ret, frame = cap.read()
+    if not ret:
+        break
+    
+    # Save the frame as an image
+    image_filename = f'/content/frame_{frame_count:04d}.jpg'
+    cv2.imwrite(image_filename, frame)
+    print(f'Saved {image_filename}')
+    
+    frame_count += 1
+
+# Release the capture and clean up
+cap.release()
+cv2.destroyAllWindows()
